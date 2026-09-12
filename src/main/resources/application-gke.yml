@@ -1,0 +1,15 @@
+spring:
+  config:
+    import: ${SPRING_CONFIG_IMPORT:vault://}
+  cloud:
+    vault:
+      enabled: ${VAULT_ENABLED:true}
+      uri: ${VAULT_URI:http://vault.default.svc.cluster.local:8200}
+      authentication: ${VAULT_AUTHENTICATION:KUBERNETES}
+      kubernetes:
+        role: ${VAULT_KUBERNETES_ROLE:auth-common}
+        service-account-token-file: ${VAULT_SERVICE_ACCOUNT_TOKEN_FILE:/var/run/secrets/kubernetes.io/serviceaccount/token}
+      kv:
+        enabled: true
+        backend: ${VAULT_KV_BACKEND:secret}
+        application-name: ${VAULT_APPLICATION_NAME:auth-common}

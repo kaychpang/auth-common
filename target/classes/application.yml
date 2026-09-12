@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: auth-common
+  datasource:
+    url: jdbc:h2:mem:authcommon;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${AUTH0_ISSUER_URI:https://example.auth0.com/}
+
+auth0:
+  audience: ${AUTH0_AUDIENCE:}
+  user-id-claim: ${AUTH0_USER_ID_CLAIM:sub}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

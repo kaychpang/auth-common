@@ -1,0 +1,70 @@
+spring:
+  application:
+    name: auth-common
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:auth_common}}
+    username: ${SPRING_DATASOURCE_USERNAME:${POSTGRES_USER:auth_common}}
+    password: ${SPRING_DATASOURCE_PASSWORD:${POSTGRES_PASSWORD:change-me}}
+    hikari:
+      maximum-pool-size: ${DB_MAX_POOL_SIZE:10}
+      minimum-idle: ${DB_MIN_IDLE:2}
+      connection-timeout: ${DB_CONNECTION_TIMEOUT:30000}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      username: ${REDIS_USERNAME:}
+      password: ${REDIS_PASSWORD:}
+      ssl:
+        enabled: ${REDIS_SSL_ENABLED:false}
+      timeout: ${REDIS_TIMEOUT:2s}
+  cache:
+    type: redis
+    redis:
+      cache-null-values: false
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${AUTH0_ISSUER_URI:https://example.auth0.com/}
+
+auth0:
+  audience: ${AUTH0_AUDIENCE:}
+  user-id-claim: ${AUTH0_USER_ID_CLAIM:sub}
+  client-id: ${AUTH0_CLIENT_ID:}
+  client-secret: ${AUTH0_CLIENT_SECRET:}
+
+app:
+  authorization-cache:
+    ttl: ${AUTHORIZATION_CACHE_TTL:5m}
+  pubsub:
+    project-one:
+      enabled: ${PUBSUB_PROJECT_ONE_ENABLED:false}
+      project-id: ${PUBSUB_PROJECT_ONE_ID:}
+      topic-id: ${PUBSUB_PROJECT_ONE_TOPIC_ID:}
+      subscription-id: ${PUBSUB_PROJECT_ONE_SUBSCRIPTION_ID:}
+      credentials-json: ${PUBSUB_PROJECT_ONE_CREDENTIALS_JSON:}
+    project-two:
+      enabled: ${PUBSUB_PROJECT_TWO_ENABLED:false}
+      project-id: ${PUBSUB_PROJECT_TWO_ID:}
+      topic-id: ${PUBSUB_PROJECT_TWO_TOPIC_ID:}
+      subscription-id: ${PUBSUB_PROJECT_TWO_SUBSCRIPTION_ID:}
+      credentials-json: ${PUBSUB_PROJECT_TWO_CREDENTIALS_JSON:}
+
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
